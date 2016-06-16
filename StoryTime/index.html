@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="StoryTime">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Story Time</title>
+
+		<!-- JQuery -->
+			<script type="text/javascript"
+			src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+
+				<!-- Bootstrap - Latest compiled and minified CSS -->
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+			<!-- Optional theme -->
+			<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+			<!-- Latest compiled and minified JavaScript -->
+			<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous">
+			</script>
+
+			<!-- Angular Framework -->
+			<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.6/angular.js"></script>
+
+			<!-- p5 lib and p5 sound lib for recording from microphone-->
+		  	<script language="javascript" type="text/javascript" src="libs/p5.js"></script>
+		  	<script language="javascript" src="libs/p5.sound.js"></script>
+
+			<!-- This app's CSS -->
+			<link rel="stylesheet" type="text/css" href="./main.css">
+	</head>
+
+	<body ng-controller="StorytimeCtrl as storytimeCtrl">
+		<div class="main-container">
+			<header class="storytime-header">
+				StoryTime
+			</header>
+			
+			<div class="container-fluid library-container">
+				<div class="row">
+					<div ng-repeat="book in storytimeCtrl.books" 
+						 ng-click="storytimeCtrl.openBook = true; storytimeCtrl.currentBook = book" 
+						 class="col-xs-3 storytime-book-thumbnail text-center">
+					</div>
+				</div> <!-- for class="row" of ng-repeat books -->
+				<!-- <div class="row"> -->
+					<div class="col-xs-3 plus-sign"
+						 ng-click="storytimeCtrl.openBook = true;
+						 		   storytimeCtrl.addPage  = true;
+						 		   storytimeCtrl.currentBook = storytimeCtrl.createNewBook();
+						 		   storytimeCtrl.addBlankPage(1)">
+				    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+					<strong class="">Create Book</strong>
+					</div>
+				<!-- </div> --> <!-- for plus-sign row-->
+			</div> <!--class="library-container"-->
+
+			<!-- Popup to display an EXISTING StoryTime book Page with 2 Pages-->
+			<div ng-show="storytimeCtrl.openBook" class="container-fluid storytime-book-displayed">
+				<div class="row">
+					<div class="col-xs-6 storytime-book-container">
+						<textarea autofocus class="storytime-book-page"
+								  ng-repeat="page in storytimeCtrl.currentBook.pages
+								  | startFrom: storytimeCtrl.currentPageNum
+								  | limitTo: 1"
+								  ng-model = page.text>
+								  {{ page.text }}
+						</textarea>  
+					</div>
+					<div class="col-xs-6 storytime-book-container">
+						<textarea autofocus class="storytime-book-page" 
+								  ng-repeat="page2 in storytimeCtrl.currentBook.pages
+								  | startFrom: storytimeCtrl.currentPageNum + 1
+								  | limitTo: 1"
+								  ng-model = page2.text>
+								  {{ page2.text }}
+						</textarea>  
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-xs-12 storytime-book-controls">
+						<!-- close book -->
+						<button type="button" class="btn btn-sm" ng-click="storytimeCtrl.openBook = false; 
+									  storytimeCtrl.currentPageNum = 1;
+									  storytimeCtrl.vo = null;
+									  storytimeCtrl.recordingL = storytimeCtrl.recordingR =
+									  	storytimeCtrl.gotRecL = storytimeCtrl.gotRecR = false;">
+									  <span class="glyphicon glyphicon-remove"></span>
+						</button>
+						<!-- buttons for recording for page left -->
+							<button ng-class="storytimeCtrl.recordingL" class="btn btn-sm" 
+									ng-click="storytimeCtrl.recordingL = 'record-button';
+											  storytimeCtrl.gotRecL = true; 
+											  storytimeCtrl.recordVO()">
+							<span class="glyphicon glyphicon-record" aria-hidden="true"></span>
+						</button>
+						<!-- for stop button (from recording) -->
+						<button ng-disabled="!storytimeCtrl.recordingL" 
+								class="btn btn-sm" ng-click="storytimeCtrl.recordingL = '';
+															 storytimeCtrl.stopVO(storytimeCtrl.currentPageNum)">
+							<span class="glyphicon glyphicon-stop" aria-hidden="true"></span>								
+					 	</button>
+					 	<!-- display a play button if we have a recording) -->
+					<!-- 	<button ng-show="storytimeCtrl.vo && storytimeCtrl.gotRecL" class="btn btn-sm" 
+								ng-click="storytimeCtrl.vo.play()">
+							<span class="glyphicon glyphicon-play" aria-hidden="true"></span>								
+					 	</button> -->
+
+						<button ng-show="storytimeCtrl.vo && storytimeCtrl.gotRecL
+										|| storytimeCtrl.pageHasVO(storytimeCtrl.currentPageNum)" 
+										class="btn btn-sm" 
+								ng-click="storytimeCtrl.playVO(storytimeCtrl.currentPageNum)">
+							<span class="glyphicon glyphicon-play" aria-hidden="true"></span>								
+					 	</button>
+
+
+						<!-- Previous Page button with arrow glyphicon -->
+						<button class="btn btn-sm" ng-disabled="storytimeCtrl.currentPageNum === 1" 
+								ng-click="storytimeCtrl.currentPageNum = storytimeCtrl.currentPageNum - 2">
+							<span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
+						</button>
+						<span class="storytime-page-status">
+							Page ({{ storytimeCtrl.currentPageNum }} 
+							
+							<span ng-hide="storytimeCtrl.currentPageNum + 1 > storytimeCtrl.currentBook.pages.length">
+								- {{ storytimeCtrl.currentPageNum + 1 }}
+							</span>
+
+							<span>) of {{ storytimeCtrl.currentBook.pages.length }}<span>
+						</span>
+
+						<!-- RIGHT PAGE -->
+						<!-- Next Page Button with arrow glyphicon -->
+						<button class="btn btn-sm" ng-disabled="storytimeCtrl.currentPageNum + 1 >= 
+									   storytimeCtrl.currentBook.pages.length" 
+								ng-click="storytimeCtrl.currentPageNum = storytimeCtrl.currentPageNum + 2">
+							<span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+						</button>
+
+						<!-- buttons for recording for page right -->
+						<button ng-class="storytimeCtrl.recordingR" class="btn btn-sm" 
+								ng-click="storytimeCtrl.recordingR = 'record-button';
+										  storytimeCtrl.gotRecR = true;
+										  storytimeCtrl.recordVO()">
+							<span class="glyphicon glyphicon-record" aria-hidden="true"></span>
+						</button>
+						<!-- For stop button -->
+						<button ng-disabled="!storytimeCtrl.recordingR" 
+								class="btn btn-sm" ng-click="storytimeCtrl.recordingR = '';
+															 storytimeCtrl.stopVO(storytimeCtrl.currentPageNum + 1)">
+							<span class="glyphicon glyphicon-stop" aria-hidden="true"></span>								
+					 	</button>
+					 	<!-- display a play button if we have a recording) -->
+						<!-- <button ng-show="(storytimeCtrl.vo && storytimeCtrl.gotRecR)
+										|| storytimeCtrl.currentPage.voFilename" class="btn btn-sm" 
+								ng-click="storytimeCtrl.vo.play()">
+							<span class="glyphicon glyphicon-play" aria-hidden="true"></span>								
+					 	</button> -->
+
+						<button ng-show="storytimeCtrl.vo && storytimeCtrl.gotRecR
+									  || storytimeCtrl.pageHasVO(storytimeCtrl.currentPageNum)"
+									  class="btn btn-sm" 
+								ng-click="storytimeCtrl.playVO(storytimeCtrl.currentPageNum)">
+							<span class="glyphicon glyphicon-play" aria-hidden="true"></span>								
+					 	</button>
+
+					 		<!-- Add Page Button with plus glyphicon -->
+						<button ng-show="storytimeCtrl.addPage" class="btn btn-sm" 
+								ng-click="storytimeCtrl.addBlankPage(2);
+										  storytimeCtrl.currentPageNum = storytimeCtrl.currentPageNum + 2">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+						</button>
+					</div>
+				</div>
+			</div>
+
+			<!-- Popup to display an NEW StoryTime book -->
+			
+
+					
+		</div> <!-- end class="main-container"-->
+
+		<!-- Include this applications angular and js files -->
+		<script type="text/javascript" src="storytime.js"></script>
+		<script type="text/javascript" src="storytime.controller.js"></script>
+		<script type="text/javascript" src="library.js"></script>
+		<script type="text/javascript" src="recordvo.js"></script>
+
+	</body>
+</html>

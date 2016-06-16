@@ -1,0 +1,110 @@
+@font-face {
+  font-family: 'Rumpelstiltskin';
+  src: url('fonts/Rumpelstiltskin.ttf') format('truetype');
+}
+
+.storytime-header {
+	font-family: 'Rumpelstiltskin', sans-serif;
+	font-size: 7em;
+	color:  #F5E7C6;
+	padding-top: 12px;
+	text-align: center;
+	text-shadow: 1px 1px 5px #232323;
+}
+
+.main-container {
+	padding-left: 0px;
+	padding-right: 0px;
+	width: 100vw; 
+    height: 100vh;
+    margin: auto;
+    background: url(images/book_bubbles2.jpg) center center no-repeat;
+    position: relative;
+}
+
+.library-container {
+	position: absolute;
+	top: 55%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 55%;
+	height: 70%;
+}
+
+.storytime-book-thumbnail {
+	height: 200px;
+	background: url(images/book_cover_leather.png) center center no-repeat;
+	margin: 20px;
+	cursor: pointer;
+	opacity: .5;
+}
+
+.storytime-book-thumbnail:hover {
+	opacity: 1;
+}
+
+.storytime-book-displayed {
+	position: absolute;
+	top: 45%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 50%;
+	overflow-wrap: break-word;
+	border-radius: 5px;
+}
+
+.storytime-book-page {
+	line-height: 55px;
+	font-size: 2.25em;
+	width: 100%;
+	height: 475px;
+	background: url(images/old-paper2.jpg) no-repeat;
+	overflow: scroll;
+	resize: none;
+	padding: 10px 15px;
+}
+
+.storytime-book-container {
+	padding: 0px;
+}
+
+.storytime-book-page, .storytime-book-controls, .plus-sign {
+	font-family: 'Rumpelstiltskin', sans-serif;
+}
+
+.storytime-book-controls {
+	padding-top: 11px;
+	padding-bottom: 52px;
+	height: 60px;
+	background: #232323;
+	opacity: .8;
+	text-align: center;
+	font-size: 22px;
+}
+
+.storytime-page-status {
+	color: white;
+	font-size: 16px;
+	width: 20%;
+}
+
+.btn-small {
+	font-family: 'Rumpelstiltskin', sans-serif;
+	font-size: 1.4em;
+}
+.plus-sign {
+	display: inline-block;
+	height: 40px;
+	width: 100%;
+	padding-left: 6%;
+	padding-top: 3%;
+	cursor: pointer;
+	font-size: 30px;
+}
+.plus-sign:hover {
+	opacity: 1;
+	color: white;
+}
+.record-button {
+	background: red;
+}

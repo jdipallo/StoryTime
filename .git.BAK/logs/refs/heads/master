@@ -1,0 +1,6 @@
+0000000000000000000000000000000000000000 ae949408d4822aeb14d3809d4260465aae04d53c Jeff DiPallo <jdipallo@gmail.com> 1465919207 -0600	commit (initial): Initial creation of StoryTiime
+ae949408d4822aeb14d3809d4260465aae04d53c 13404d8372cc1f7e899ff891cafac6b67ea297af Jeff DiPallo <jdipallo@gmail.com> 1465927279 -0600	commit: Changed Design - now we have a Library Module with a Book Factory for all our needs
+13404d8372cc1f7e899ff891cafac6b67ea297af 349f01ff5845d693788b10c827ffa064ebbc186d Jeff DiPallo <jdipallo@gmail.com> 1465941821 -0600	commit: Finshed enough of reading existing books and displaying. Now,lets create a book'
+349f01ff5845d693788b10c827ffa064ebbc186d c11e2eac75bae264bafb72a5e2d4d249e6f68282 Jeff DiPallo <jdipallo@gmail.com> 1466003897 -0600	commit: Got book creation done. Need to add a last/first page and some styling
+c11e2eac75bae264bafb72a5e2d4d249e6f68282 6aeb3e6ea6eafd1aae3b798c0bf9d26175e016dd Jeff DiPallo <jdipallo@gmail.com> 1466025263 -0600	commit: Got all Pagination Working
+6aeb3e6ea6eafd1aae3b798c0bf9d26175e016dd a198899da828b9bcdb678b09ac73ad0d3da5f647 Jeff DiPallo <jdipallo@gmail.com> 1466111060 -0600	commit: adding voiceover recording from microphone and all controls
