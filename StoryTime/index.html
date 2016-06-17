@@ -40,13 +40,13 @@
 				<div class="row">
 					<div ng-repeat="book in storytimeCtrl.books" 
 						 ng-click="storytimeCtrl.openBook = true; storytimeCtrl.currentBook = book" 
-						 class="col-xs-3 storytime-book-thumbnail text-center">
+						 class="col-xs-3 storytime-book-thumbnail text-center"
+						 style="background: url(images/{{book.cover.imageCover}}) no-repeat">
 					</div>
 				</div> <!-- for class="row" of ng-repeat books -->
 				<!-- <div class="row"> -->
 					<div class="col-xs-3 plus-sign"
 						 ng-click="storytimeCtrl.openBook = true;
-						 		   storytimeCtrl.addPage  = true;
 						 		   storytimeCtrl.currentBook = storytimeCtrl.createNewBook();
 						 		   storytimeCtrl.addBlankPage(1)">
 				    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
