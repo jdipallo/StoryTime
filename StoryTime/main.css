@@ -71,8 +71,29 @@
 
 .storytime-book-container {
 	padding: 0px;
+	perspective: 500px;
+ 	transition: transform 1.0s ease-in-out;
+ 	transform-style: preserve-3d;
+ 	transform-origin: left;
 }
 
+/*.storytime-book-container:hover {
+	transform: rotate3d(0,1,0,180deg);
+
+}*/
+/*
+.storytime-book-container.ng-leave.ng-leave-active,
+.storytime-book-container.ng-move,
+.storytime-book-container.ng-enter {
+	transform: rotate3d(0,1,0,180deg);
+}
+
+.storytime-book-container.ng-leave,
+.storytime-book-container.ng-move.ng-move-active,
+.storytime-book-container.ng-enter-active {
+	transform: rotate3d(0,1,0,-180deg);
+}
+*/
 .storytime-book-page, .storytime-book-controls, .plus-sign {
 	font-family: 'Grinched', 'Rumpelstiltskin', sans-serif;
 }

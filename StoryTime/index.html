@@ -38,7 +38,7 @@
 			
 			<div class="container-fluid library-container">
 				<div class="row">
-					<div ng-repeat="book in storytimeCtrl.books" 
+					<div ng-repeat="book in storytimeCtrl.books"
 						 ng-click="storytimeCtrl.openBook = true; storytimeCtrl.currentBook = book" 
 						 class="col-xs-3 storytime-book-thumbnail text-center"
 						 style="background: url(images/{{book.cover.imageCover}}) no-repeat">
@@ -47,6 +47,7 @@
 				<!-- <div class="row"> -->
 					<div class="col-xs-3 plus-sign"
 						 ng-click="storytimeCtrl.openBook = true;
+						 		   storytimeCtrl.addPage = true;
 						 		   storytimeCtrl.currentBook = storytimeCtrl.createNewBook();
 						 		   storytimeCtrl.addBlankPage(1)">
 				    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
@@ -151,14 +152,8 @@
 							<span class="glyphicon glyphicon-stop" aria-hidden="true"></span>								
 					 	</button>
 					 	<!-- display a play button if we have a recording) -->
-						<!-- <button ng-show="(storytimeCtrl.vo && storytimeCtrl.gotRecR)
-										|| storytimeCtrl.currentPage.voFilename" class="btn btn-sm" 
-								ng-click="storytimeCtrl.vo.play()">
-							<span class="glyphicon glyphicon-play" aria-hidden="true"></span>								
-					 	</button> -->
-
 						<button ng-show="storytimeCtrl.vo && storytimeCtrl.gotRecR
-									  || storytimeCtrl.pageHasVO(storytimeCtrl.currentPageNum)"
+									  || storytimeCtrl.pageHasVO(storytimeCtrl.currentPageNum + 1)"
 									  class="btn btn-sm" 
 								ng-click="storytimeCtrl.playVO(storytimeCtrl.currentPageNum)">
 							<span class="glyphicon glyphicon-play" aria-hidden="true"></span>								

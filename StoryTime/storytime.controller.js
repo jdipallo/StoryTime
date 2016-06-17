@@ -15,7 +15,7 @@ function storytimeCtrl(Book) {
 	var ctrl = this;
 	ctrl.books = Book.retrieveBooks();
 	ctrl.openBook = false;
-	ctrl.addPage  = false;
+	ctrl.addPage  = true;
 	ctrl.currentPageNum = 1;
 	ctrl.vo = null;
 
